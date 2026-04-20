@@ -1,0 +1,261 @@
+.sidebar {
+  width: 200px;
+  height: 100vh;
+  background-color: var(--surface);
+  border-right: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  padding: 20px 16px;
+  position: fixed;
+  left: 0;
+  top: 0;
+}
+
+.logoContainer {
+  padding: 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.logoImage {
+  max-width: 100%;
+  height: auto;
+  max-height: 80px;
+}
+
+.nav {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.navGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.navLabel {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--foreground-secondary);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 4px;
+  padding-left: 12px;
+}
+
+.navItem {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  border-radius: var(--radius);
+  color: var(--foreground-secondary);
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.navItem:hover {
+  background-color: var(--surface-hover);
+  color: var(--foreground);
+}
+
+.navItem svg {
+  color: var(--foreground-secondary);
+}
+
+.navItem:hover svg {
+  color: var(--primary);
+}
+
+.footer {
+  margin-top: auto;
+  padding-top: 24px;
+  border-top: 1px solid var(--border);
+}
+
+.logoutBtn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  border-radius: var(--radius);
+  color: var(--foreground-secondary);
+  font-weight: 500;
+  transition: all 0.2s ease;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.logoutBtn:hover {
+  background-color: rgba(239, 68, 68, 0.1);
+  color: #ef4444;
+}
+
+/* Notifications Styles */
+.notificationWrapper {
+  position: relative;
+  margin-bottom: 8px;
+}
+
+.iconBtn {
+  width: 100%;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--foreground-secondary);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.iconBtn:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+  background-color: rgba(255, 102, 0, 0.05);
+}
+
+.hasNotifications {
+  border-color: rgba(239, 68, 68, 0.3);
+}
+
+.badge {
+  position: absolute;
+  top: 8px;
+  right: 12px;
+  background-color: #ef4444;
+  color: white;
+  font-size: 10px;
+  font-weight: 700;
+  width: 16px;
+  height: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  border: 2px solid var(--surface);
+}
+
+.notificationMenu {
+  position: absolute;
+  bottom: 0;
+  left: 200px;
+  width: 320px;
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.4);
+  z-index: 1000;
+  overflow: hidden;
+  animation: slideIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes slideIn {
+  from { opacity: 0; transform: translateX(-10px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+.menuHeader {
+  padding: 16px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: rgba(255, 255, 255, 0.02);
+}
+
+.menuHeader h3 {
+  font-size: 0.9rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.menuHeader button {
+  background: none;
+  border: none;
+  color: var(--foreground-secondary);
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+
+.taskList {
+  max-height: 380px;
+  overflow-y: auto;
+}
+
+.taskItem {
+  padding: 14px 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--border);
+  transition: background 0.2s ease;
+}
+
+.taskItem:hover {
+  background-color: rgba(255, 102, 0, 0.03);
+}
+
+.taskInfo {
+  flex: 1;
+}
+
+.taskTitle {
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin: 0;
+  color: var(--foreground);
+}
+
+.taskSubtitle {
+  font-size: 0.75rem;
+  color: var(--foreground-secondary);
+  margin: 4px 0 0 0;
+}
+
+.doneBtn {
+  background: none;
+  border: none;
+  color: var(--foreground-secondary);
+  cursor: pointer;
+  padding: 6px;
+  transition: all 0.2s ease;
+  border-radius: 50%;
+}
+
+.doneBtn:hover {
+  color: #10b981;
+  background-color: rgba(16, 185, 129, 0.1);
+}
+
+.viewAllBtn {
+  display: block;
+  padding: 14px;
+  text-align: center;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--primary);
+  text-decoration: none;
+  background-color: rgba(255, 102, 0, 0.05);
+}
+
+.viewAllBtn:hover {
+  background-color: rgba(255, 102, 0, 0.1);
+}
+
+.emptyMsg {
+  padding: 40px;
+  text-align: center;
+  color: var(--foreground-secondary);
+  font-size: 0.85rem;
+  margin: 0;
+}
