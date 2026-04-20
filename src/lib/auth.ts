@@ -34,7 +34,7 @@ export const authOptions: NextAuthOptions = {
         }
 
         return {
-          id: user.id,
+          id: user.id.toString(), // <-- Acá está la magia para que TypeScript no se queje
           email: user.email,
           name: user.name,
           role: user.role,
