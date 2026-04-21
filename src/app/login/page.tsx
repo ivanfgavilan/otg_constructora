@@ -33,11 +33,11 @@ export default function LoginPage() {
       <div className={styles.card}>
         <div className={styles.logoContainer}>
           {/* Cambiamos Image por img normal para evitar errores de optimización en el servidor */}
-          <img 
-            src="/logo.png" 
-            alt="OTG Constructora" 
-            style={{ width: '180px', height: 'auto', display: 'block', margin: '0 auto' }}
-          />
+         <img 
+              src="https://i.imgur.com/k6txwaO.png" 
+              alt="OTG Constructora" 
+              style={{ width: '180px', height: 'auto' }}
+            />
         </div>
         
         <h1 className={styles.title}>Iniciar Sesión</h1>
