@@ -36,13 +36,14 @@ export const authOptions: NextAuthOptions = {
 
         console.log('[AUTH] Usuario encontrado, verificando contraseña...');
 
-       // TEMPORAL: Comparación directa para entrar
+     // TEMPORAL: Comparación directa para entrar
 const isValid = credentials.password === user.password;
 
-        if (!isPasswordValid) {
-          console.error('[AUTH] Contraseña incorrecta para:', credentials.email);
-          throw new Error('Invalid password');
-        }
+// Usamos el mismo nombre: isValid
+if (!isValid) { 
+  console.error('[AUTH] Contraseña incorrecta para:', credentials.email);
+  throw new Error('Invalid password');
+}
 
         console.log('[AUTH] Login exitoso para:', user.email, '| Rol:', user.role);
 
