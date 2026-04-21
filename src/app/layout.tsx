@@ -18,15 +18,18 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="es">
-      <body className={inter.className}>
+      <body className={inter.className} style={{ backgroundColor: '#0a0a0a', margin: 0 }}>
         <Providers>
           <div className="flex min-h-screen">
-            {/* El Sidebar está fijo por CSS, así que no ocupa espacio en el flujo flex */}
+            {/* El Sidebar está fijo por su CSS (position: fixed) */}
             <Sidebar />
 
-            {/* Agregamos ml-[200px] para compensar el ancho del Sidebar fijo */}
-            <main className="flex-1 bg-gray-50 overflow-y-auto ml-[200px]">
-              <div className="p-8"> 
+            {/* FORZAMOS el margen izquierdo de 200px con style inline */}
+            <main 
+              style={{ marginLeft: '200px', width: 'calc(100% - 200px)' }} 
+              className="flex-1 min-h-screen overflow-y-auto"
+            >
+              <div className="p-8">
                 {children}
               </div>
             </main>
