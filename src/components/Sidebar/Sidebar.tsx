@@ -4,68 +4,61 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { signOut, useSession } from 'next-auth/react';
 import { LayoutDashboard, Users, Archive, CheckSquare, LogOut, Bell, CheckCircle } from 'lucide-react';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import styles from './Sidebar.module.css';
 
 export default function Sidebar() {
+  // 1. PRIMERO: Declaramos todos los Hooks (Siempre arriba, siempre en el mismo orden)
   const pathname = usePathname();
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
   const [showNotifications, setShowNotifications] = useState(false);
   const [pendingTasks, setPendingTasks] = useState<any[]>([]);
   const [loadingTasks, setLoadingTasks] = useState(false);
 
-  // LÓGICA DE SEGURIDAD: 
-  // 1. Si estamos en el login, el Sidebar NO debe aparecer.
-  // 2. Si no hay sesión, tampoco debería aparecer por seguridad.
-  if (pathname === '/login' || !session) return null;
-
-  const isActive = (path: string) => pathname === path;
-
-  useEffect(() => {
-    if (session) {
-      fetchPendingTasks();
-    }
-  }, [session]);
-
-  const fetchPendingTasks = async () => {
+  // Definimos la función de carga con useCallback para que no cambie en cada render
+  const fetchPendingTasks = useCallback(async () => {
     setLoadingTasks(true);
     try {
       const res = await fetch('/api/tasks?status=pending');
       if (res.ok) {
         const data = await res.json();
-        setPendingTasks(data);
+        setPendingTasks(Array.isArray(data) ? data : []);
       }
     } catch (err) {
-      console.error(err);
+      console.error("Falla en el fetch de tareas:", err);
     } finally {
       setLoadingTasks(false);
     }
-  };
+  }, []);
 
-  const handleMarkAsDone = async (id: number) => {
-    try {
-      const res = await fetch(`/api/tasks/${id}`, {
-        method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ completed: true })
-      });
-      if (res.ok) {
-        fetchPendingTasks();
-      }
-    } catch (err) {
-      console.error(err);
+  useEffect(() => {
+    if (session) {
+      fetchPendingTasks();
     }
-  };
+  }, [session, fetchPendingTasks]);
+
+  // 2. SEGUNDO: Condiciones de salida (Early returns)
+  // Ahora que todos los hooks se ejecutaron, podemos decidir si mostrar algo o no
+  if (status === "loading") {
+    return <aside className={styles.sidebar}><p className={styles.emptyMsg}>Cargando...</p></aside>;
+  }
+
+  if (pathname === '/login' || !session) {
+    return null;
+  }
+
+  // 3. TERCERO: El renderizado final
+  const isActive = (path: string) => pathname === path;
 
   return (
     <aside className={styles.sidebar}>
       <div className={styles.logoContainer}>
-        {/* Usamos img normal para evitar que el error de Next Image rompa el Sidebar */}
-          <img
-              src="https://i.imgur.com/k6txwaO.png" 
-              alt="OTG Constructora"
-              style={{ width: '120px', height: 'auto', objectFit: 'contain' }}
-          />
+        {/* Usamos el logo de Imgur que me pasaste */}
+        <img
+          src="https://i.imgur.com/k6txwaO.png" 
+          alt="OTG Constructora"
+          style={{ width: '140px', height: 'auto', objectFit: 'contain', display: 'block', margin: '0 auto' }}
+        />
       </div>
       
       <nav className={styles.nav}>
@@ -120,12 +113,11 @@ export default function Sidebar() {
                     <div key={task.id} className={styles.taskItem}>
                       <div className={styles.taskInfo}>
                         <p className={styles.taskTitle}>{task.title}</p>
-                        <p className={styles.taskSubtitle}>{task.lead?.firstName} • {task.dueTime}</p>
+                        <p className={styles.taskSubtitle}>{task.lead?.firstName || 'Lead'} • {task.dueTime || 'Hoy'}</p>
                       </div>
                       <button 
                         className={styles.doneBtn}
                         onClick={() => handleMarkAsDone(task.id)}
-                        title="Marcar como realizada"
                       >
                         <CheckCircle size={18} />
                       </button>
@@ -133,11 +125,7 @@ export default function Sidebar() {
                   ))
                 )}
               </div>
-              <Link 
-                href="/tasks" 
-                className={styles.viewAllBtn}
-                onClick={() => setShowNotifications(false)}
-              >
+              <Link href="/tasks" className={styles.viewAllBtn} onClick={() => setShowNotifications(false)}>
                 Ver todas las tareas
               </Link>
             </div>
@@ -151,4 +139,18 @@ export default function Sidebar() {
       </div>
     </aside>
   );
+}
+
+// Función auxiliar para el botón de completar (fuera del componente para evitar recrearla)
+async function handleMarkAsDone(id: number) {
+  try {
+    await fetch(`/api/tasks/${id}`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ completed: true })
+    });
+    window.location.reload(); // Recarga simple para actualizar la lista
+  } catch (err) {
+    console.error(err);
+  }
 }
