@@ -42,6 +42,8 @@ COPY --from=builder /app/.next/static ./.next/static
 COPY --from=builder /app/prisma ./prisma
 COPY --from=builder /app/node_modules/.prisma ./node_modules/.prisma
 COPY --from=builder /app/node_modules/@prisma ./node_modules/@prisma
+# bcryptjs: pure JS, sin binarios nativos - siempre incluirlo explícitamente
+COPY --from=builder /app/node_modules/bcryptjs ./node_modules/bcryptjs
 
 EXPOSE 3000
 ENV PORT=3000
