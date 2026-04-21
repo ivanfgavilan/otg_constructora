@@ -1,22 +1,12 @@
-import { withAuth } from 'next-auth/middleware';
-import { NextResponse } from 'next/server';
+import { withAuth } from "next-auth/middleware";
 
-export default withAuth(
-  function middleware(req) {
-    const { pathname } = req.nextUrl;
-    const token = req.nextauth.token;
-    console.log(`[MIDDLEWARE] ${req.method} ${pathname} | Auth: ${token ? `OK (${(token as any).role})` : 'NO SESSION'}`);
-    return NextResponse.next();
+export default withAuth({
+  pages: {
+    signIn: "/login",
   },
-  {
-    callbacks: {
-      authorized: ({ token }) => !!token,
-    },
-  }
-);
+});
 
 export const config = {
-  matcher: [
-    '/((?!login|api/auth|_next/static|_next/image|favicon.ico).*)',
-  ],
+  // Esta línea protege TODO el CRM excepto el login, la API de auth y los archivos estáticos
+  matcher: ["/((?!api/auth|login|_next/static|_next/image|favicon.ico).*)"],
 };
