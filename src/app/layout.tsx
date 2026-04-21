@@ -20,9 +20,10 @@ export default function RootLayout({
     <html lang="es">
       <body className={inter.className}>
         <Providers>
-          <div className="layout">
+          {/* Usamos flex para garantizar que el Sidebar y el Main estén uno al lado del otro */}
+          <div className="flex min-h-screen">
             <Sidebar />
-            <main className="main-content">
+            <main className="flex-1 bg-gray-50 overflow-y-auto">
               {children}
             </main>
           </div>
