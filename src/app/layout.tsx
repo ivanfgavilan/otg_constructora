@@ -18,28 +18,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="es">
-      {/* Forzamos el fondo oscuro en todo el html para evitar bordes blancos */}
-      <body className={inter.className} style={{ backgroundColor: '#0a0a0a', margin: 0 }}>
+      <body className={inter.className}>
         <Providers>
-          <div className="flex min-h-screen">
-            
+          <div className="layout">
             <Sidebar />
-
-            {/* CONTENEDOR PRINCIPAL */}
-            <main 
-              style={{ 
-                marginLeft: '200px', // El ancho de tu sidebar
-                width: 'calc(100% - 200px)',
-                minHeight: '100vh',
-                backgroundColor: '#0a0a0a' 
-              }}
-            >
-              {/* Este es el "aire" que le faltaba: p-10 (más espacio) y un max-width */}
-              <div className="p-10 max-w-[1600px] mx-auto">
-                {children}
-              </div>
+            <main className="main-content">
+              {children}
             </main>
-
           </div>
         </Providers>
       </body>
