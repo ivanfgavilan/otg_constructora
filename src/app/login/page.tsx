@@ -2,18 +2,17 @@
 
 import { useState } from 'react';
 import { signIn } from 'next-auth/react';
-import { useRouter } from 'next/navigation';
-import Image from 'next/image';
 import styles from './login.module.css';
 
 export default function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
-  const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setError(''); // Limpiamos errores previos
+
     const result = await signIn('credentials', {
       email,
       password,
@@ -23,10 +22,9 @@ export default function LoginPage() {
     if (result?.error) {
       setError('Credenciales inválidas');
     } else {
-      // IMPORTANTE: usar window.location en vez de router.push
-      // router.push es client-side y no re-lee las cookies de sesión recién creadas.
-      // window.location fuerza una recarga completa que sí valida el nuevo token.
-      window.location.href = '/';
+      // Forzamos el redireccionamiento al home
+      // window.location es más seguro en producción para que el Middleware se entere
+      window.location.replace('/');
     }
   };
 
@@ -34,13 +32,11 @@ export default function LoginPage() {
     <div className={styles.container}>
       <div className={styles.card}>
         <div className={styles.logoContainer}>
-          <Image 
+          {/* Cambiamos Image por img normal para evitar errores de optimización en el servidor */}
+          <img 
             src="/logo.png" 
             alt="OTG Constructora" 
-            width={180} 
-            height={80} 
-            style={{ objectFit: 'contain' }}
-            priority
+            style={{ width: '180px', height: 'auto', display: 'block', margin: '0 auto' }}
           />
         </div>
         
@@ -56,7 +52,7 @@ export default function LoginPage() {
               type="email" 
               value={email} 
               onChange={(e) => setEmail(e.target.value)} 
-              placeholder="ejemplo@otg.com.co"
+              placeholder="admin@otg.com.co"
               required 
             />
           </div>
