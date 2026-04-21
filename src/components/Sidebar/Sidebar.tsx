@@ -1,7 +1,6 @@
 'use client';
 
 import Link from 'next/link';
-import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { signOut, useSession } from 'next-auth/react';
 import { LayoutDashboard, Users, Archive, CheckSquare, LogOut, Bell, CheckCircle } from 'lucide-react';
@@ -15,6 +14,11 @@ export default function Sidebar() {
   const [pendingTasks, setPendingTasks] = useState<any[]>([]);
   const [loadingTasks, setLoadingTasks] = useState(false);
 
+  // LÓGICA DE SEGURIDAD: 
+  // 1. Si estamos en el login, el Sidebar NO debe aparecer.
+  // 2. Si no hay sesión, tampoco debería aparecer por seguridad.
+  if (pathname === '/login' || !session) return null;
+
   const isActive = (path: string) => pathname === path;
 
   useEffect(() => {
@@ -26,7 +30,6 @@ export default function Sidebar() {
   const fetchPendingTasks = async () => {
     setLoadingTasks(true);
     try {
-      // Filtrar pendientes de hoy o antes
       const res = await fetch('/api/tasks?status=pending');
       if (res.ok) {
         const data = await res.json();
@@ -57,13 +60,11 @@ export default function Sidebar() {
   return (
     <aside className={styles.sidebar}>
       <div className={styles.logoContainer}>
-        <Image
-          src="/logo.png"
+        {/* Usamos img normal para evitar que el error de Next Image rompa el Sidebar */}
+        <img
+          src="/logo.png" 
           alt="OTG Constructora"
-          width={120}
-          height={55}
-          style={{ objectFit: 'contain' }}
-          priority
+          style={{ width: '120px', height: 'auto', objectFit: 'contain' }}
         />
       </div>
       
