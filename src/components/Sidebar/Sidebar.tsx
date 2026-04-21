@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { signOut, useSession } from 'next-auth/react';
 import { LayoutDashboard, Users, Archive, CheckSquare, LogOut, Bell, CheckCircle } from 'lucide-react';
@@ -56,7 +57,14 @@ export default function Sidebar() {
   return (
     <aside className={styles.sidebar}>
       <div className={styles.logoContainer}>
-        <img src="/logo.png" alt="OTG Constructora" className={styles.logoImage} />
+        <Image
+          src="/logo.png"
+          alt="OTG Constructora"
+          width={120}
+          height={55}
+          style={{ objectFit: 'contain' }}
+          priority
+        />
       </div>
       
       <nav className={styles.nav}>

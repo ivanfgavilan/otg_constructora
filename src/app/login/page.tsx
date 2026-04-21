@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 import styles from './login.module.css';
 
 export default function LoginPage() {
@@ -30,7 +31,14 @@ export default function LoginPage() {
     <div className={styles.container}>
       <div className={styles.card}>
         <div className={styles.logoContainer}>
-          <img src="/logo.png" alt="OTG Constructora" className={styles.logoImage} />
+          <Image 
+            src="/logo.png" 
+            alt="OTG Constructora" 
+            width={180} 
+            height={80} 
+            style={{ objectFit: 'contain' }}
+            priority
+          />
         </div>
         
         <h1 className={styles.title}>Iniciar Sesión</h1>
