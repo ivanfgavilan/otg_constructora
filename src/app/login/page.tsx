@@ -23,7 +23,10 @@ export default function LoginPage() {
     if (result?.error) {
       setError('Credenciales inválidas');
     } else {
-      router.push('/');
+      // IMPORTANTE: usar window.location en vez de router.push
+      // router.push es client-side y no re-lee las cookies de sesión recién creadas.
+      // window.location fuerza una recarga completa que sí valida el nuevo token.
+      window.location.href = '/';
     }
   };
 
