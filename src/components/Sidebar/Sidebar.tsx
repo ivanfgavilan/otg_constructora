@@ -61,11 +61,11 @@ export default function Sidebar() {
     <aside className={styles.sidebar}>
       <div className={styles.logoContainer}>
         {/* Usamos img normal para evitar que el error de Next Image rompa el Sidebar */}
-        <img
-          src="/logo.png" 
-          alt="OTG Constructora"
-          style={{ width: '120px', height: 'auto', objectFit: 'contain' }}
-        />
+          <img
+              src="https://i.imgur.com/k6txwaO.png" 
+              alt="OTG Constructora"
+              style={{ width: '120px', height: 'auto', objectFit: 'contain' }}
+          />
       </div>
       
       <nav className={styles.nav}>
